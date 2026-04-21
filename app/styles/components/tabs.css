@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════════════════
+   Tab strip — mirrors .nav-link idiom (crimson bottom underline).
+   ═══════════════════════════════════════════════════════════════ */
+
+.tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tabs::-webkit-scrollbar {
+  height: 4px;
+}
+.tabs::-webkit-scrollbar-thumb {
+  background: var(--concrete-500);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 100ms ease-out, border-color 100ms ease-out;
+}
+
+.tab:hover {
+  color: var(--text);
+  border-bottom-color: var(--concrete-500);
+}
+
+.tab.active {
+  color: var(--text-bright);
+  border-bottom-color: var(--crimson);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: -2px;
+}

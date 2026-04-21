@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   Fleet palette — canonical brutalist tokens (concrete + crimson)
+   ═══════════════════════════════════════════════════════════════ */
+@import "./styles/palette.css";
+
+/* Fleet component layer */
+@import "./styles/components/buttons.css";
+@import "./styles/components/cards.css";
+@import "./styles/components/forms.css";
+@import "./styles/components/navigation.css";
+
+/* Bespoke additive component layer */
+@import "./styles/components/badges.css";
+@import "./styles/components/segmented.css";
+@import "./styles/components/tabs.css";
+@import "./styles/components/code.css";
+@import "./styles/components/hero.css";
+@import "./styles/components/octopus.css";
+
+/* ═══════════════════════════════════════════════════════════════
+   Tailwind v4 @theme — bridges fleet tokens into utility classes
+   so `bg-concrete-800`, `text-crimson`, etc. resolve correctly.
+   ═══════════════════════════════════════════════════════════════ */
+@theme {
+  --color-concrete-50:  #f5f5f5;
+  --color-concrete-100: #e0e0e0;
+  --color-concrete-200: #c4c4c4;
+  --color-concrete-300: #8a8a8a;
+  --color-concrete-400: #707070;
+  --color-concrete-500: #525252;
+  --color-concrete-700: #3a3a3a;
+  --color-concrete-800: #1f1f1f;
+  --color-concrete-900: #0a0a0a;
+
+  --color-crimson:      #dc143c;
+  --color-crimson-dark: #a00f2f;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", Menlo, monospace;
+
+  --shadow-brick:       4px 4px 0 #0a0a0a;
+  --shadow-brick-hover: 6px 6px 0 #0a0a0a;
+
+  --radius-*: initial;
+  --radius-none:  0;
+  --radius-sharp: 2px;
+
+  --breakpoint-gen: 56.25rem; /* 900px */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Body defaults — overrides fleet palette.css body rule so
+   our chosen Inter font (via next/font CSS var) takes effect.
+   ═══════════════════════════════════════════════════════════════ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Headings always use mono per fleet brutalist idiom. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Project-wide utility classes
+   ═══════════════════════════════════════════════════════════════ */
+
+.bg-dot-grid {
+  background-image: radial-gradient(circle, var(--concrete-700) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.focus-brick:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 2px;
+}
+
+/* Reduced-motion override — disables decorative animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

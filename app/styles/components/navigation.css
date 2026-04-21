@@ -1,0 +1,184 @@
+/* ════════════════════════════════════════════════════════════
+   AXL FLEET — NAVIGATION
+   Top nav with crimson active-item underline.
+   Structural. Horizontal. Unambiguous.
+   Requires: palette.css
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Top nav container ── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1.5rem;
+}
+
+/* ── Brand / wordmark ── */
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-bright);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-brand:hover {
+  color: var(--crimson);
+  text-decoration: none;
+}
+
+/* ── Nav link list ── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* ── Individual nav link ── */
+.nav-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 100ms ease-out, border-color 100ms ease-out;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  border-bottom-color: var(--concrete-500);
+  text-decoration: none;
+}
+
+/* ── Active state — crimson underline ── */
+.nav-link.active,
+.nav-link[aria-current="page"] {
+  color: var(--text-bright);
+  border-bottom-color: var(--crimson);
+}
+
+/* ── Nav right section (actions, user tag, etc.) ── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ── Nav divider ── */
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Nav badge (status indicator) ── */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--crimson);
+  color: var(--text-bright);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: var(--radius-none);
+}
+
+/* ── Status dot (live / offline indicator) ── */
+.nav-status {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--concrete-500);
+  flex-shrink: 0;
+}
+
+.nav-status.online  { background: #00cc55; }
+.nav-status.offline { background: var(--crimson); }
+.nav-status.warn    { background: #ffaa00; }
+
+/* ── Mobile hamburger (show/hide logic handled by JS) ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  transition: background 100ms ease-out;
+}
+
+.nav-hamburger:hover span { background: var(--crimson); }
+
+/* ── Responsive — collapse nav below 640px ── */
+@media (max-width: 640px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    right: 0;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-link {
+    width: 100%;
+    height: auto;
+    padding: 0.75rem 1.5rem;
+    border-bottom: none;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-link.active,
+  .nav-link[aria-current="page"] {
+    border-left-color: var(--crimson);
+    border-bottom-color: transparent;
+  }
+
+  .nav-hamburger { display: flex; }
+}

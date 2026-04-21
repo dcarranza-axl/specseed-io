@@ -1,0 +1,108 @@
+/* ════════════════════════════════════════════════════════════
+   AXL FLEET — CARDS
+   4px-drop-shadow bricks. Structural. Load-bearing.
+   Requires: palette.css
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Base card ── */
+.card {
+  background: var(--bg-surface);
+  border: var(--border-hard);
+  border-radius: var(--radius-none);
+  padding: 1.5rem;
+  position: relative;
+  transition: box-shadow 120ms ease-out, transform 120ms ease-out;
+}
+
+/* ── Brick — the signature drop-shadow ── */
+.card-brick {
+  box-shadow: var(--shadow-brick);
+}
+
+.card-brick:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--concrete-900);
+}
+
+/* ── Raised — subtle elevation without hard shadow ── */
+.card-raised {
+  background: var(--bg-raised);
+  border-color: var(--concrete-500);
+}
+
+/* ── Accent strip — crimson left border ── */
+.card-accent {
+  border-left: 3px solid var(--crimson);
+}
+
+/* ── Card header ── */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.card-value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1;
+  margin: 0.25rem 0;
+}
+
+.card-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Stat card — compact metric display ── */
+.card-stat {
+  padding: 1rem 1.25rem;
+}
+
+.card-stat .card-value {
+  font-size: 2rem;
+}
+
+/* ── Alert card — for warnings / errors ── */
+.card-alert {
+  border-color: var(--crimson);
+  background: var(--bg-surface);
+}
+
+.card-alert .card-title {
+  color: var(--crimson);
+}
+
+/* ── Clickable card ── */
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:hover {
+  border-color: var(--concrete-200);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-brick);
+}
+
+/* ── Card grid layout helper ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}

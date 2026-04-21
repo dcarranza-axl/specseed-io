@@ -1,0 +1,113 @@
+/* ════════════════════════════════════════════════════════════
+   AXL FLEET — BRUTALIST CONCRETE
+   Palette: concrete grays + crimson active
+   Vibe: raw, structural, unapologetic
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  /* CONCRETE — the weight */
+  --concrete-900: #0a0a0a;   /* void */
+  --concrete-800: #1f1f1f;   /* deep shadow */
+  --concrete-700: #3a3a3a;   /* foundation */
+  --concrete-500: #525252;   /* structural */
+  --concrete-400: #707070;   /* body text on light */
+  --concrete-300: #8a8a8a;   /* divider / muted */
+  --concrete-200: #c4c4c4;   /* surface-raised */
+  --concrete-100: #e0e0e0;   /* surface */
+  --concrete-50:  #f5f5f5;   /* background */
+
+  /* CRIMSON — the only color that gets to exist */
+  --crimson:      #dc143c;
+  --crimson-dark: #a00f2f;
+  --crimson-glow: #dc143c33;
+
+  /* SEMANTIC TOKENS */
+  --bg:           var(--concrete-900);
+  --bg-surface:   var(--concrete-800);
+  --bg-raised:    var(--concrete-700);
+  --border:       var(--concrete-500);
+  --text:         var(--concrete-100);
+  --text-muted:   var(--concrete-300);
+  --text-bright:  #ffffff;
+  --accent:       var(--crimson);
+  --accent-hover: var(--crimson-dark);
+
+  /* TYPOGRAPHY */
+  --font-mono:    'IBM Plex Mono', 'JetBrains Mono', 'Menlo', monospace;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* STRUCTURE */
+  --radius-none:  0;           /* brutalism says no rounded corners */
+  --radius-sharp: 2px;
+  --shadow-brick: 4px 4px 0 var(--concrete-900);
+  --border-hard:  1px solid var(--border);
+}
+
+/* LIGHT MODE INVERSION — same vibe, flipped */
+[data-theme="light"] {
+  --bg:           var(--concrete-50);
+  --bg-surface:   #ffffff;
+  --bg-raised:    var(--concrete-100);
+  --border:       var(--concrete-300);
+  --text:         var(--concrete-800);
+  --text-muted:   var(--concrete-500);
+  --text-bright:  var(--concrete-900);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  margin: 0;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5em 0;
+  color: var(--text-bright);
+}
+
+code, pre, .mono { font-family: var(--font-mono); }
+
+.accent { color: var(--accent); }
+.accent-bg { background: var(--accent); color: var(--text-bright); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; text-decoration-thickness: 2px; }
+
+button, .btn {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--bg-raised);
+  color: var(--text);
+  border: var(--border-hard);
+  border-radius: var(--radius-none);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 120ms ease-out;
+}
+button:hover, .btn:hover {
+  background: var(--crimson);
+  color: var(--text-bright);
+  border-color: var(--crimson);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brick);
+}
+
+.card {
+  background: var(--bg-surface);
+  border: var(--border-hard);
+  padding: 1.5rem;
+  border-radius: var(--radius-none);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--concrete-500);
+  margin: 1.5rem 0;
+}

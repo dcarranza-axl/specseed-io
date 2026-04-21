@@ -1,0 +1,55 @@
+/* ═══════════════════════════════════════════════════════════════
+   Hero — dotted grid bg + vertical code scroll strip
+   ═══════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--concrete-700) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.hero-code-scroll {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: clamp(280px, 35%, 560px);
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.hero-code-scroll-inner {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: var(--concrete-400);
+  white-space: pre;
+  padding: 1rem 1.25rem;
+  opacity: 0.5;
+  animation: hero-code-scroll 60s linear infinite;
+}
+
+@keyframes hero-code-scroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@media (max-width: 640px) {
+  .hero-code-scroll { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-code-scroll-inner { animation: none; }
+}

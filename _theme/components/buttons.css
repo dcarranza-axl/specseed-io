@@ -1,0 +1,112 @@
+/* ════════════════════════════════════════════════════════════
+   AXL FLEET — BUTTONS
+   Brutalist. No rounded corners. No apologies.
+   Requires: palette.css (--concrete-*, --crimson, --crimson-dark, etc.)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Base reset (shared by all button variants) ── */
+.btn,
+button.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-radius: var(--radius-none);
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 100ms ease-out, color 100ms ease-out,
+              box-shadow 100ms ease-out, transform 100ms ease-out;
+  line-height: 1;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: none !important;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Primary — crimson fill ── */
+.btn-primary {
+  background: var(--crimson);
+  color: var(--text-bright);
+  border-color: var(--crimson);
+}
+
+.btn-primary:hover {
+  background: var(--crimson-dark);
+  border-color: var(--crimson-dark);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brick);
+  text-decoration: none;
+  color: var(--text-bright);
+}
+
+/* ── Secondary — concrete outline ── */
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-raised);
+  border-color: var(--concrete-200);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brick);
+  text-decoration: none;
+  color: var(--text-bright);
+}
+
+/* ── Ghost — text-only, no fill, no prominent border ── */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: var(--accent, var(--crimson));
+  border-color: transparent;
+  text-decoration: none;
+}
+
+/* ── Sizes ── */
+.btn-sm {
+  font-size: 0.7rem;
+  padding: 6px 14px;
+}
+
+.btn-lg {
+  font-size: 0.95rem;
+  padding: 14px 28px;
+}
+
+/* ── Danger variant (for destructive actions) ── */
+.btn-danger {
+  background: transparent;
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+
+.btn-danger:hover {
+  background: var(--crimson);
+  color: var(--text-bright);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--crimson-dark);
+  text-decoration: none;
+}

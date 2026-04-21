@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════════════════
+   Segmented control — brutalist radio row
+   ═══════════════════════════════════════════════════════════════ */
+
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-none);
+  background: var(--bg);
+  overflow: hidden;
+  width: 100%;
+}
+
+.segmented-option {
+  flex: 1 0 auto;
+  min-width: 0;
+  padding: 8px 12px;
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 100ms ease-out, color 100ms ease-out;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.segmented-option:last-child {
+  border-right: none;
+}
+
+.segmented-option:hover:not(.active) {
+  background: var(--bg-raised);
+  color: var(--text);
+}
+
+.segmented-option.active {
+  background: var(--crimson);
+  color: var(--text-bright);
+}
+
+.segmented-option:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: -2px;
+  position: relative;
+  z-index: 1;
+}

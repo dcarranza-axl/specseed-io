@@ -1,0 +1,38 @@
+/* ═══════════════════════════════════════════════════════════════
+   Tier badges — Haiku (ghost) / Sonnet (outline) / Opus (fill)
+   Monochromatic crimson discipline. No green/cyan/purple.
+   ═══════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  line-height: 1;
+  border-radius: var(--radius-none);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.badge-haiku {
+  color: var(--text-muted);
+  border-color: var(--border);
+  border-style: dashed;
+}
+
+.badge-sonnet {
+  color: var(--text);
+  border-color: var(--concrete-200);
+  background: transparent;
+}
+
+.badge-opus {
+  color: var(--text-bright);
+  background: var(--crimson);
+  border-color: var(--crimson);
+}

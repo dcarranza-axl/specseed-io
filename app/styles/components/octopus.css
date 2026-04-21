@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════════════════
+   PhaseOctopus — 9-card horizontal row with scroll snap
+   ═══════════════════════════════════════════════════════════════ */
+
+.octopus-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.5rem 0.25rem 1rem;
+  scrollbar-width: thin;
+}
+
+.octopus-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.octopus-scroll::-webkit-scrollbar-thumb {
+  background: var(--concrete-500);
+}
+
+.octopus-card {
+  position: relative;
+  flex: 0 0 240px;
+  scroll-snap-align: start;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.octopus-card-number {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--crimson);
+}
+
+.octopus-card-name {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-bright);
+  margin: 0;
+}
+
+.octopus-card-meta {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.octopus-card-artifact {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  color: var(--concrete-300);
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  word-break: break-all;
+}
+
+@media (max-width: 640px) {
+  .octopus-scroll {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+  .octopus-card {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}

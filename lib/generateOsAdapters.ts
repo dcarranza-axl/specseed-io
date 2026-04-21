@@ -1,0 +1,100 @@
+import type { SeedInput } from './seedSchema'
+import { joinLines, slugify } from './helpers'
+
+export function generateMacosSetup(input: SeedInput): string {
+  const primary = input.environment === 'macos' || input.environment === 'both'
+  return joinLines([
+    '#!/usr/bin/env bash',
+    'set -euo pipefail',
+    '',
+    primary
+      ? `# Generated as primary target for ${input.projectName}.`
+      : `# Included for completeness — primary target is Ubuntu.`,
+    '',
+    '# Check Node + npm versions',
+    'command -v node >/dev/null 2>&1 || { echo "node not found. Install via Homebrew: brew install node" >&2; exit 1; }',
+    'command -v npm  >/dev/null 2>&1 || { echo "npm not found." >&2; exit 1; }',
+    '',
+    `NODE_MAJOR=$(node -v | sed -E 's/v([0-9]+)\\..*/\\1/')`,
+    'if [ "$NODE_MAJOR" -lt 20 ]; then',
+    '  echo "Node 20+ required. Found: $(node -v)" >&2',
+    '  exit 1',
+    'fi',
+    '',
+    'echo "node $(node -v) / npm $(npm -v) ok"',
+    '',
+    '# Install deps',
+    'npm install',
+    '',
+    '# Note: for background jobs on macOS, use launchd plists under ~/Library/LaunchAgents.',
+    '',
+    `echo "${input.projectName} setup complete."`,
+    '',
+  ])
+}
+
+export function generateUbuntuBootstrap(input: SeedInput): string {
+  const primary = input.environment === 'ubuntu' || input.environment === 'both'
+  const slug = slugify(input.projectName)
+  return joinLines([
+    `# Ubuntu bootstrap — ${input.projectName}`,
+    '',
+    primary
+      ? 'Target: Ubuntu 22.04 LTS or 24.04 LTS.'
+      : 'Included for completeness. Primary target is macOS.',
+    '',
+    '## 1. Base packages',
+    '```bash',
+    'sudo apt update && sudo apt upgrade -y',
+    'sudo apt install -y curl ca-certificates gnupg build-essential git ufw nginx certbot python3-certbot-nginx jq',
+    '```',
+    '',
+    '## 2. Node 20.x (NodeSource)',
+    '```bash',
+    'curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -',
+    'sudo apt install -y nodejs',
+    '```',
+    '',
+    '## 3. Deploy user (non-root)',
+    '```bash',
+    'sudo adduser --disabled-password --gecos "" deploy',
+    'sudo usermod -aG sudo deploy',
+    'sudo mkdir -p /home/deploy/.ssh && sudo chmod 700 /home/deploy/.ssh',
+    'sudo cp ~/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys',
+    'sudo chown -R deploy:deploy /home/deploy/.ssh',
+    '```',
+    '',
+    '## 4. SSH hardening',
+    'Edit `/etc/ssh/sshd_config`: set `PermitRootLogin no`, `PasswordAuthentication no`. Then `sudo systemctl reload ssh`.',
+    '',
+    '## 5. UFW',
+    '```bash',
+    'sudo ufw allow OpenSSH',
+    'sudo ufw allow "Nginx Full"',
+    'sudo ufw --force enable',
+    '```',
+    '',
+    '## 6. nginx site + TLS',
+    '```bash',
+    `sudo tee /etc/nginx/sites-available/${slug} <<'EOF'`,
+    'server {',
+    '  listen 80;',
+    `  server_name ${slug}.example.com;`,
+    `  root /var/www/${slug}/out;`,
+    '  index index.html;',
+    '  location / { try_files $uri $uri/ =404; }',
+    '}',
+    'EOF',
+    `sudo ln -sf /etc/nginx/sites-available/${slug} /etc/nginx/sites-enabled/${slug}`,
+    'sudo nginx -t && sudo systemctl reload nginx',
+    `sudo certbot --nginx -d ${slug}.example.com --non-interactive --agree-tos -m admin@${slug}.example.com`,
+    '```',
+    '',
+    '## 7. Deploy path',
+    '```bash',
+    `sudo mkdir -p /var/www/${slug}`,
+    `sudo chown deploy:deploy /var/www/${slug}`,
+    '```',
+    '',
+  ])
+}
