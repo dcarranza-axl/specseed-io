@@ -7,7 +7,7 @@ import { clsx } from 'clsx'
 const LINKS = [
   { href: '/#generator', label: 'Generator' },
   { href: '/#octopus',   label: 'Octopus' },
-  { href: '/#how',       label: 'How it works' },
+  { href: '/how/',       label: 'How it works' },
   { href: '/playground/',label: 'Playground' },
 ]
 
