@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1340" role="img" aria-labelledby="diagram-title diagram-desc" font-family="'IBM Plex Mono', 'JetBrains Mono', Menlo, monospace">
+  <title id="diagram-title">SpecSeed.io run — Nine-Phase Octopus with parallel Opus fan-out at phases 2 and 3</title>
+  <desc id="diagram-desc">Single root Claude Opus 4.7 orchestrator executes nine sequential phases reading one MOS document, fanning out to four parallel Opus subagents during phases 2 and 3 for decomposition and architecture planning, then implementing, testing, reviewing, and deploying the resulting site.</desc>
+
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#525252"/>
+    </marker>
+    <marker id="ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc143c"/>
+    </marker>
+    <style>
+      .bg         { fill: #0a0a0a; }
+      .box        { fill: #1f1f1f; stroke: #525252; stroke-width: 1; }
+      .box-mos    { fill: #1f1f1f; stroke: #dc143c; stroke-width: 2; }
+      .box-root   { fill: #3a3a3a; stroke: #dc143c; stroke-width: 2; }
+      .box-haiku  { fill: #1f1f1f; stroke: #8a8a8a; stroke-width: 1; }
+      .box-sonnet { fill: #1f1f1f; stroke: #c4c4c4; stroke-width: 1; }
+      .box-opus   { fill: #1f1f1f; stroke: #dc143c; stroke-width: 1.5; }
+      .box-sub    { fill: #0a0a0a; stroke: #dc143c; stroke-width: 1; stroke-dasharray: 3 2; }
+      .box-deploy { fill: #1f1f1f; stroke: #dc143c; stroke-width: 2; }
+      .box-live   { fill: #1f1f1f; stroke: #dc143c; stroke-width: 3; }
+      .t-label    { font-size: 14px; font-weight: 700; fill: #ffffff; letter-spacing: 0.04em; }
+      .t-name     { font-size: 13px; font-weight: 700; fill: #ffffff; letter-spacing: 0.03em; }
+      .t-meta     { font-size: 11px; fill: #c4c4c4; }
+      .t-artifact { font-size: 10px; fill: #8a8a8a; }
+      .t-num      { font-size: 26px; font-weight: 700; fill: #dc143c; }
+      .t-dur      { font-size: 11px; fill: #dc143c; font-weight: 700; }
+      .t-legend   { font-size: 10px; fill: #8a8a8a; }
+      .arrow      { stroke: #525252; stroke-width: 1.5; fill: none; marker-end: url(#a); }
+      .arrow-c    { stroke: #dc143c; stroke-width: 1; fill: none; marker-end: url(#ac); stroke-dasharray: 3 2; }
+      .divider    { stroke: #3a3a3a; stroke-width: 1; stroke-dasharray: 2 4; }
+    </style>
+  </defs>
+
+  <rect width="900" height="1340" class="bg"/>
+
+  <!-- MOS input -->
+  <rect x="225" y="20" width="450" height="60" class="box-mos"/>
+  <text x="450" y="44" text-anchor="middle" class="t-label">MOS · ONE HUMAN DOCUMENT</text>
+  <text x="450" y="62" text-anchor="middle" class="t-meta">SPECSEED-MOS.md · ~50 KB · execution contract</text>
+
+  <line x1="450" y1="80" x2="450" y2="108" class="arrow"/>
+
+  <!-- Root orchestrator -->
+  <rect x="200" y="108" width="500" height="70" class="box-root"/>
+  <text x="450" y="134" text-anchor="middle" class="t-label">CLAUDE OPUS 4.7 · ROOT ORCHESTRATOR</text>
+  <text x="450" y="152" text-anchor="middle" class="t-meta">reads MOS · owns fan-out + collapse · writes _mos/</text>
+  <text x="450" y="168" text-anchor="middle" class="t-meta">never recurses — subagents do not spawn subagents</text>
+
+  <line x1="450" y1="178" x2="450" y2="210" class="arrow"/>
+
+  <!-- Phase 0 Recon -->
+  <rect x="150" y="210" width="600" height="60" class="box-haiku"/>
+  <text x="175" y="250" class="t-num">00</text>
+  <text x="225" y="233" class="t-name">RECON</text>
+  <text x="225" y="250" class="t-meta">box inventory · toolchain · fleet template</text>
+  <text x="225" y="265" class="t-artifact">→ _mos/00-recon.md</text>
+  <text x="725" y="240" text-anchor="end" class="t-dur">~10 min</text>
+  <text x="725" y="255" text-anchor="end" class="t-meta" fill="#8a8a8a">haiku-weight</text>
+
+  <line x1="450" y1="270" x2="450" y2="298" class="arrow"/>
+
+  <!-- Phase 1 Strategy -->
+  <rect x="150" y="298" width="600" height="60" class="box-opus"/>
+  <text x="175" y="338" class="t-num">01</text>
+  <text x="225" y="321" class="t-name">STRATEGY</text>
+  <text x="225" y="338" class="t-meta">stack + export mode + deps locked</text>
+  <text x="225" y="353" class="t-artifact">→ _mos/01-strategy.md</text>
+  <text x="725" y="328" text-anchor="end" class="t-dur">~8 min</text>
+  <text x="725" y="343" text-anchor="end" class="t-meta" fill="#8a8a8a">opus · high</text>
+
+  <line x1="450" y1="358" x2="450" y2="390" class="arrow"/>
+
+  <!-- Phase 2 Decompose + fan-out -->
+  <rect x="150" y="390" width="440" height="90" class="box-opus"/>
+  <text x="175" y="418" class="t-num">02</text>
+  <text x="225" y="411" class="t-name">DECOMPOSE</text>
+  <text x="225" y="428" class="t-meta">what components + what lib functions?</text>
+  <text x="225" y="445" class="t-meta">[ ROOT COLLAPSES ]</text>
+  <text x="225" y="463" class="t-artifact">→ _mos/02-decomposition.md</text>
+  <text x="563" y="410" text-anchor="end" class="t-dur">~4 min wall</text>
+  <text x="563" y="425" text-anchor="end" class="t-meta" fill="#8a8a8a">~16 min work</text>
+
+  <!-- Phase 2 subagents -->
+  <rect x="625" y="394" width="220" height="38" class="box-sub"/>
+  <text x="735" y="410" text-anchor="middle" class="t-name">OPUS-A · FRONTEND</text>
+  <text x="735" y="424" text-anchor="middle" class="t-artifact">02-decompose-A.md</text>
+
+  <rect x="625" y="438" width="220" height="38" class="box-sub"/>
+  <text x="735" y="454" text-anchor="middle" class="t-name">OPUS-B · LIBRARY</text>
+  <text x="735" y="468" text-anchor="middle" class="t-artifact">02-decompose-B.md</text>
+
+  <!-- Fan-out arrows for Phase 2 -->
+  <path d="M 590 420 L 620 413" class="arrow-c"/>
+  <path d="M 590 445 L 620 457" class="arrow-c"/>
+  <path d="M 625 413 Q 605 413 590 440" class="arrow-c"/>
+  <path d="M 625 457 Q 605 457 590 452" class="arrow-c"/>
+
+  <line x1="450" y1="480" x2="450" y2="510" class="arrow"/>
+
+  <!-- Phase 3 Architecture + fan-out -->
+  <rect x="150" y="510" width="440" height="90" class="box-opus"/>
+  <text x="175" y="538" class="t-num">03</text>
+  <text x="225" y="531" class="t-name">ARCHITECTURE</text>
+  <text x="225" y="548" class="t-meta">file tree + interfaces + signatures</text>
+  <text x="225" y="565" class="t-meta">[ ROOT COLLAPSES ]</text>
+  <text x="225" y="583" class="t-artifact">→ _mos/03-architecture.md</text>
+  <text x="563" y="530" text-anchor="end" class="t-dur">~4 min wall</text>
+  <text x="563" y="545" text-anchor="end" class="t-meta" fill="#8a8a8a">~16 min work</text>
+
+  <rect x="625" y="514" width="220" height="38" class="box-sub"/>
+  <text x="735" y="530" text-anchor="middle" class="t-name">OPUS-A · TREE+TYPES</text>
+  <text x="735" y="544" text-anchor="middle" class="t-artifact">03-architect-A.md</text>
+
+  <rect x="625" y="558" width="220" height="38" class="box-sub"/>
+  <text x="735" y="574" text-anchor="middle" class="t-name">OPUS-B · SIGNATURES</text>
+  <text x="735" y="588" text-anchor="middle" class="t-artifact">03-architect-B.md</text>
+
+  <path d="M 590 540 L 620 533" class="arrow-c"/>
+  <path d="M 590 565 L 620 577" class="arrow-c"/>
+  <path d="M 625 533 Q 605 533 590 560" class="arrow-c"/>
+  <path d="M 625 577 Q 605 577 590 572" class="arrow-c"/>
+
+  <line x1="450" y1="600" x2="450" y2="630" class="arrow"/>
+
+  <!-- Phase 4 Build -->
+  <rect x="150" y="630" width="600" height="60" class="box-sonnet"/>
+  <text x="175" y="670" class="t-num">04</text>
+  <text x="225" y="653" class="t-name">BUILD</text>
+  <text x="225" y="670" class="t-meta">create-next-app · npm install · ~60 files written</text>
+  <text x="225" y="685" class="t-artifact">→ implementation diffs (Group A/B/C/D)</text>
+  <text x="725" y="660" text-anchor="end" class="t-dur">~90 min</text>
+  <text x="725" y="675" text-anchor="end" class="t-meta" fill="#8a8a8a">the long pole</text>
+
+  <line x1="450" y1="690" x2="450" y2="718" class="arrow"/>
+
+  <!-- Phase 5 Wire -->
+  <rect x="150" y="718" width="600" height="50" class="box-sonnet"/>
+  <text x="175" y="756" class="t-num">05</text>
+  <text x="225" y="740" class="t-name">WIRE</text>
+  <text x="225" y="756" class="t-meta">import graph + prop contracts verified</text>
+  <text x="725" y="748" text-anchor="end" class="t-dur">~3 min</text>
+  <text x="725" y="762" text-anchor="end" class="t-artifact">05-wire.md</text>
+
+  <line x1="450" y1="768" x2="450" y2="796" class="arrow"/>
+
+  <!-- Phase 6 Test -->
+  <rect x="150" y="796" width="600" height="50" class="box-sonnet"/>
+  <text x="175" y="834" class="t-num">06</text>
+  <text x="225" y="818" class="t-name">TEST</text>
+  <text x="225" y="834" class="t-meta">lint · 0 err · build · 4 pages · tsc · 0 err</text>
+  <text x="725" y="826" text-anchor="end" class="t-dur">~5 min</text>
+  <text x="725" y="840" text-anchor="end" class="t-artifact">06-verification.md</text>
+
+  <line x1="450" y1="846" x2="450" y2="874" class="arrow"/>
+
+  <!-- Phase 7 Review -->
+  <rect x="150" y="874" width="600" height="50" class="box-opus"/>
+  <text x="175" y="912" class="t-num">07</text>
+  <text x="225" y="896" class="t-name">REVIEW</text>
+  <text x="225" y="912" class="t-meta">DoD checklist · P0/P1/P2 flags</text>
+  <text x="725" y="904" text-anchor="end" class="t-dur">~5 min</text>
+  <text x="725" y="918" text-anchor="end" class="t-artifact">07-review.md</text>
+
+  <line x1="450" y1="924" x2="450" y2="952" class="arrow"/>
+
+  <!-- Phase 8 Integration -->
+  <rect x="150" y="952" width="600" height="50" class="box-opus"/>
+  <text x="175" y="990" class="t-num">08</text>
+  <text x="225" y="974" class="t-name">INTEGRATION</text>
+  <text x="225" y="990" class="t-meta">docs · final build · launch prep</text>
+  <text x="725" y="982" text-anchor="end" class="t-dur">~5 min</text>
+  <text x="725" y="996" text-anchor="end" class="t-artifact">08-integration.md</text>
+
+  <line x1="450" y1="1002" x2="450" y2="1030" class="arrow"/>
+
+  <!-- Deploy (operator checkpoint) -->
+  <rect x="225" y="1030" width="450" height="80" class="box-deploy"/>
+  <text x="450" y="1055" text-anchor="middle" class="t-label">DEPLOY · OPERATOR CHECKPOINT</text>
+  <text x="450" y="1072" text-anchor="middle" class="t-meta">nginx site · systemctl reload · certbot --nginx</text>
+  <text x="450" y="1088" text-anchor="middle" class="t-meta">~5 min exec + ~30 min approval latency</text>
+  <text x="450" y="1102" text-anchor="middle" class="t-artifact">→ /tmp/specseed-sitrep-*.txt</text>
+
+  <line x1="450" y1="1110" x2="450" y2="1142" class="arrow"/>
+
+  <!-- Live site -->
+  <rect x="200" y="1142" width="500" height="90" class="box-live"/>
+  <text x="450" y="1172" text-anchor="middle" class="t-label" font-size="18">https://specseed.io</text>
+  <text x="450" y="1192" text-anchor="middle" class="t-meta">89 files · 13 audit artifacts · TLS auto-renewing</text>
+  <text x="450" y="1210" text-anchor="middle" class="t-meta">total wall clock: 3 h 6 min · 1 vCPU droplet · one commit</text>
+
+  <!-- Legend -->
+  <g transform="translate(20, 1260)">
+    <text x="0" y="0" class="t-legend" font-weight="700" fill="#c4c4c4">LEGEND</text>
+    <rect x="0" y="10" width="14" height="10" class="box-haiku"/>
+    <text x="20" y="19" class="t-legend">haiku</text>
+    <rect x="70" y="10" width="14" height="10" class="box-sonnet"/>
+    <text x="90" y="19" class="t-legend">sonnet</text>
+    <rect x="140" y="10" width="14" height="10" class="box-opus"/>
+    <text x="160" y="19" class="t-legend">opus</text>
+    <rect x="210" y="10" width="14" height="10" class="box-sub"/>
+    <text x="230" y="19" class="t-legend">parallel subagent</text>
+    <line x1="360" y1="15" x2="400" y2="15" class="arrow"/>
+    <text x="406" y="19" class="t-legend">sequential</text>
+    <line x1="490" y1="15" x2="530" y2="15" class="arrow-c"/>
+    <text x="536" y="19" class="t-legend">fan-out / collapse</text>
+  </g>
+
+  <text x="880" y="1320" text-anchor="end" class="t-legend" fill="#525252">CC-OPS-SPECSEED</text>
+</svg>

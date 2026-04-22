@@ -283,7 +283,37 @@ export default function HowPage() {
               Single root orchestrator. Fan-out only where it wins (planning). Collapse
               into one artifact per phase before moving on. Subagents never recurse.
             </p>
-            <pre className="code-block text-xs sm:text-sm" aria-label="Phase flow diagram" tabIndex={0}>{DIAGRAM}</pre>
+            <figure className="space-y-3">
+              <img
+                src="/how-diagram.svg"
+                alt="Flow diagram: one MOS document feeds a Claude Opus 4.7 root orchestrator that executes 9 sequential phases — Recon, Strategy, Decompose, Architecture, Build, Wire, Test, Review, Integration — then a deploy checkpoint, then the live site. Phases 2 and 3 fan out to two parallel Opus subagents each and collapse back to a single artifact. Total wall clock: 3 hours 6 minutes."
+                className="w-full border border-[var(--border)] bg-[var(--concrete-900)]"
+                width={900}
+                height={1340}
+              />
+              <figcaption className="text-xs font-mono text-[var(--text-muted)] flex flex-wrap gap-x-4 gap-y-1">
+                <span>Legend: dashed crimson = fan-out/collapse · solid gray = sequential.</span>
+                <a
+                  href="/how-diagram.svg"
+                  className="text-[var(--crimson)] underline decoration-dotted underline-offset-4 hover:decoration-solid"
+                >
+                  Open SVG
+                </a>
+                <a
+                  href="/how-diagram.drawio"
+                  download
+                  className="text-[var(--crimson)] underline decoration-dotted underline-offset-4 hover:decoration-solid"
+                >
+                  Download draw.io source
+                </a>
+              </figcaption>
+            </figure>
+            <details className="group">
+              <summary className="cursor-pointer text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--crimson)]">
+                Show ASCII version
+              </summary>
+              <pre className="code-block text-xs sm:text-sm mt-3" aria-label="Phase flow diagram, ASCII variant" tabIndex={0}>{DIAGRAM}</pre>
+            </details>
           </section>
 
           {/* ─── TIMELINE ─────────────────────────────────────── */}

@@ -12,7 +12,7 @@ export function Footer() {
         </div>
         <div className="flex gap-4 items-center text-[var(--text-muted)]">
           <a
-            href="https://github.com/"
+            href="https://github.com/dcarranza-axl"
             rel="noopener noreferrer"
             target="_blank"
             className="nav-link"
