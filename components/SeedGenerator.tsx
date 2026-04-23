@@ -1,16 +1,23 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { compileFullSeed } from '@/lib/compileFullSeed'
-import { DEFAULT_SEED_INPUT, type SeedInput } from '@/lib/seedSchema'
+import {
+  DEFAULT_SEED_INPUT,
+  EMPTY_SEED_INPUT,
+  type SeedInput,
+} from '@/lib/seedSchema'
 import { FORM_FIELDS } from '@/lib/formFields'
 import { copyToClipboard } from '@/lib/clipboard'
 import { downloadBundle, downloadFile } from '@/lib/downloadFile'
+import { buildShareUrl, readShareFromLocation } from '@/lib/shareUrl'
+import { getStarredState } from '@/lib/githubStar'
 import { Button } from './ui/Button'
 import { FormField } from './ui/FormField'
 import { TabStrip } from './ui/TabStrip'
 import { SegmentedControl } from './ui/SegmentedControl'
+import { StarGate } from './ui/StarGate'
 import { MarkdownPreview } from './MarkdownPreview'
 
 const MAIN_TABS = [
@@ -34,6 +41,8 @@ const CODEX_SUB = [
   { value: 'reviewer', label: 'reviewer.toml' },
   { value: 'worker',   label: 'worker.toml' },
 ]
+
+type PendingAction = null | 'seed' | 'pack'
 
 interface SeedGeneratorProps {
   initialInput?: SeedInput
@@ -61,7 +70,23 @@ export function SeedGenerator({
   const [claudeSub, setClaudeSub] = useState('reviewer')
   const [codexSub, setCodexSub] = useState('config')
   const [copyLabel, setCopyLabel] = useState<'Copy Markdown' | 'Copied'>('Copy Markdown')
+  const [shareLabel, setShareLabel] = useState<'Share seed' | 'Link copied'>('Share seed')
   const [building, setBuilding] = useState(false)
+  const [gateOpen, setGateOpen] = useState(false)
+  const pendingAction = useRef<PendingAction>(null)
+
+  // Read ?s=... query param on first mount and pre-populate input if present.
+  // SSR renders with the server-side default; client reads window here post-hydration,
+  // which intentionally triggers one extra render — the cleanest pattern for URL→state
+  // in a static-exported page.
+  useEffect(() => {
+    const shared = readShareFromLocation()
+    if (shared) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setInput(shared)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const bundle = useMemo(() => compileFullSeed(input), [input])
 
@@ -97,6 +122,20 @@ export function SeedGenerator({
     }
   }
 
+  async function handleShare() {
+    const url = buildShareUrl(input)
+    try {
+      await copyToClipboard(url)
+      setShareLabel('Link copied')
+      setTimeout(() => setShareLabel('Share seed'), 1500)
+    } catch {
+      // Fallback: bounce the URL through window.prompt
+      if (typeof window !== 'undefined') {
+        window.prompt('Copy this share URL:', url)
+      }
+    }
+  }
+
   function handleDownloadSeed() {
     downloadFile(`SEED-${bundle.slug}.md`, bundle.seedMd, 'text/markdown;charset=utf-8')
   }
@@ -112,7 +151,30 @@ export function SeedGenerator({
     }
   }
 
-  function handleReset() {
+  function gatedDownloadSeed() {
+    if (getStarredState().verified) return handleDownloadSeed()
+    pendingAction.current = 'seed'
+    setGateOpen(true)
+  }
+
+  function gatedDownloadPack() {
+    if (getStarredState().verified) return handleDownloadPack()
+    pendingAction.current = 'pack'
+    setGateOpen(true)
+  }
+
+  function onGateVerified() {
+    const action = pendingAction.current
+    pendingAction.current = null
+    if (action === 'seed') handleDownloadSeed()
+    else if (action === 'pack') void handleDownloadPack()
+  }
+
+  function handleClear() {
+    setInput(EMPTY_SEED_INPUT)
+  }
+
+  function handleDemo() {
     setInput(DEFAULT_SEED_INPUT)
   }
 
@@ -134,9 +196,19 @@ export function SeedGenerator({
       )}
 
       <div className="grid grid-cols-1 gen:grid-cols-[minmax(0,420px)_1fr] gap-6">
-        <div className="card card-brick p-6">
-          <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] mb-4">
-            Input
+        <div className="card card-brick p-6 flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
+              Input
+            </div>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" onClick={handleClear}>
+                Clear
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleDemo}>
+                Demo
+              </Button>
+            </div>
           </div>
           <div className="space-y-0">
             {FORM_FIELDS.map((spec) => (
@@ -151,8 +223,13 @@ export function SeedGenerator({
         </div>
 
         <div className="card card-brick p-6 flex flex-col gap-4 min-w-0">
-          <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
-            Preview
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
+              Preview
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleShare}>
+              {shareLabel}
+            </Button>
           </div>
 
           <TabStrip
@@ -185,18 +262,21 @@ export function SeedGenerator({
             <Button variant="secondary" onClick={handleCopy}>
               {copyLabel}
             </Button>
-            <Button variant="primary" onClick={handleDownloadSeed}>
+            <Button variant="primary" onClick={gatedDownloadSeed}>
               Download SEED.md
             </Button>
-            <Button variant="secondary" onClick={handleDownloadPack} disabled={building}>
+            <Button variant="secondary" onClick={gatedDownloadPack} disabled={building}>
               {building ? 'Building…' : 'Download Adapter Pack'}
-            </Button>
-            <Button variant="ghost" onClick={handleReset}>
-              Reset to Demo
             </Button>
           </div>
         </div>
       </div>
+
+      <StarGate
+        open={gateOpen}
+        onClose={() => setGateOpen(false)}
+        onVerified={onGateVerified}
+      />
     </section>
   )
 }

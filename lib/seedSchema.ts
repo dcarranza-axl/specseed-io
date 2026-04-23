@@ -126,3 +126,19 @@ export const DEFAULT_SEED_INPUT: SeedInput = {
   repoNotes:
     'Next.js App Router, TypeScript strict, Tailwind CSS, Framer Motion.',
 }
+
+/** Blank starting state for the Clear button. Enum fields stay at a valid default. */
+export const EMPTY_SEED_INPUT: SeedInput = {
+  projectName: '',
+  objective: '',
+  projectType: 'saas-app',
+  agentPlatform: 'both',
+  environment: 'both',
+  scope: 'medium',
+  risk: 'medium',
+  parallelism: 'balanced',
+  outputStyle: 'detailed',
+  deploymentTarget: 'static',
+  constraints: '',
+  repoNotes: '',
+}
